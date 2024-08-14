@@ -1,0 +1,10 @@
+{
+  "restartable": "rs",
+  "exec": "hsl",
+  "watch": [
+    "./bin/web-server",
+    "./lib/**",
+    "./lib/core/*"
+  ],
+  "verbose": false
+}

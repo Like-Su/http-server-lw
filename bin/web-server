@@ -1,0 +1,67 @@
+#! /usr/bin/env node
+
+const fs = require('fs/promises');
+const { readFileSync } = require('fs');
+const path = require('path');
+
+const chalk = require('chalk');
+const { program } = require('commander');
+
+const options = require('./options');
+const pkg = require('../package.json');
+const { createServer } = require('../lib/http-server');
+
+// import pkg from '../package.json' assert { type: 'json' };
+
+program.name(pkg.name)
+  .description(pkg.description)
+  .version(pkg.version);
+
+const helpTexts = {};
+Object.keys(options).forEach(key => {
+  const {
+    option,
+    description,
+    default: defaultValue
+  } = options[key];
+
+  helpTexts[key] = { description, defaultValue };
+
+  program.option(option, description, defaultValue);
+});
+
+// 添加示例调用说明
+const texts = Object.keys(helpTexts).map(key => {
+  const text = helpTexts[key];
+
+  return `  $ ${text.description} --${key}(${text.defaultValue})`;
+}).join('\r\n');
+
+program.addHelpText('after', chalk.green(`Example call: \r\n${texts}`));
+
+// 开始解析
+program.parse(process.argv);
+
+// 获取用户选择项目
+const opts = program.opts();
+
+const defaultConfig = { cli: Object.keys(options).reduce((op, key) => (op[key] = options[key].default, op), {}) };
+
+const webServePath = path.join(defaultConfig.cli.root, defaultConfig.cli.config);
+
+if(defaultConfig.cli.default) {
+  const defaultWebConfig = readFileSync(path.resolve(__dirname, 'web.server.default.js'), 'utf-8');
+  console.log(chalk.yellow(defaultWebConfig));
+}
+
+
+let webConfig = null;
+try {
+  webConfig = require(webServePath);
+} catch (e) {
+  webConfig = require(path.resolve(__dirname, 'web.server.default.js'));
+} finally {
+  const userConfig = Object.assign(defaultConfig, webConfig, opts);
+  createServer(userConfig);
+}
+

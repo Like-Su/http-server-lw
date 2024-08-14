@@ -1,0 +1,27 @@
+{
+  "name": "http-server-lw",
+  "version": "0.1.0",
+  "description": "Lightweight web server",
+  "main": "./lib/http-server.js",
+  "scripts": {
+    "dev": "node ./lib/http-server.js"
+  },
+  "keywords": [
+    "web-server",
+    "http-server",
+    "server"
+  ],
+  "author": "LK",
+  "license": "MIT",
+  "bin": {
+    "server": "./bin/web-server",
+    "hsl": "./bin/web-server"
+  },
+  "dependencies": {
+    "chalk": "4",
+    "commander": "^12.1.0",
+    "debug": "^4.3.6",
+    "mime": "^3.0.0",
+    "nodemon": "^3.1.4"
+  }
+}
