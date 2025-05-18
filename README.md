@@ -21,3 +21,5 @@ pnpm run dev
 4. Compression gzip br deflate
 5. Anti theft chain
 6. Cross domain, pre check requests
+
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/Like-Su/http-server-lw?utm_source=oss&utm_medium=github&utm_campaign=Like-Su%2Fhttp-server-lw&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
